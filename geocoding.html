@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+
+
+<title>Google Maps JavaScript API v3 Example: Geocoding Simple</title>
+
+
+<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDzZhKr7RMc6mjGWdoM2tRGOAdab7WhV7I&sensor=false"></script>
+<script type="text/javascript">
+  var geocoder;
+  var map;
+  function initialize() {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var myOptions = {
+      zoom: 14,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    codeAddress()
+
+var highlandBoundary = [
+new google.maps.LatLng(39.04507, -77.06455),
+new google.maps.LatLng(39.04545, -77.06442),
+new google.maps.LatLng(39.04615, -77.05618),
+new google.maps.LatLng(39.04557, -77.05232),
+new google.maps.LatLng(39.05067, -77.05167),
+new google.maps.LatLng(39.05260, -77.05867),
+new google.maps.LatLng(39.05303, -77.06049),
+new google.maps.LatLng(39.05462, -77.06204),
+new google.maps.LatLng(39.05545, -77.06624),
+new google.maps.LatLng(39.05532, -77.06755),
+new google.maps.LatLng(39.05678, -77.06965),
+new google.maps.LatLng(39.05348, -77.07276),
+new google.maps.LatLng(39.05150, -77.07452),
+new google.maps.LatLng(39.04909, -77.06976),
+new google.maps.LatLng(39.04507, -77.06455)
+];
+
+
+  boundary = new google.maps.Polygon({
+    paths: highlandBoundary, 
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.35
+  });
+
+boundary.setMap(map)
+
+  }
+
+  function codeAddress() {
+    var address = "1820 Franwall Ave Silver Spring, MD 20902";
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+            map: map, 
+            position: results[0].geometry.location
+        });
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
+  }
+</script>
+</head>
+<body onload="initialize()">
+  <div>    <input id="address" type="textbox" value="Spokane, WA">
+	    <input type="button" value="Geocode" onclick="codeAddress()">
+  </div>
+<div id="map_canvas" style="height:90%;top:30px"></div>
+</body>
+</html>
+
